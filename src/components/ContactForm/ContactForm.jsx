@@ -1,10 +1,14 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { nanoid } from "nanoid";
 import { useId } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FormSchema } from "../../helpers";
+import { addContact } from "../../redux/contactsSlice";
 import css from "./ContactForm.module.css";
 
-export default function ContactForm({ addContact, contacts }) {
+export default function ContactForm() {
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts.items);
   const nameFieldId = useId();
   const numberFieldId = useId();
 
@@ -38,7 +42,7 @@ export default function ContactForm({ addContact, contacts }) {
       return;
     }
 
-    addContact({ ...values, id: nanoid() });
+    dispatch(addContact({ ...values, id: nanoid() }));
     actions.resetForm();
   };
 
